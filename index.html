@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/media.css">
+    <link rel="Icon" href="images/icone.jfif">
+    <title>ContactHub</title>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary position-sticky top-0 start-0 end-0 navv">
+    <div class="container">
+      <div class="icone-one d-flex justify-content-center align-items-center">
+        <i class="fa-solid fa-address-book" style="color: rgb(255, 255, 255);"></i>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+        aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item">
+            <div class="d-flex flex-column ms-3">
+              <div class="d-flex flex-row">
+                <span class="contant">Contact</span><span class="Hub">Hub</span>
+              </div>
+              <span class="Smart">Smart Contact Manager</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="topbar-actions">
+          <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fas fa-plus"></i> Add Contact
+          </button>
+        </div>
+        <div class="icone-two d-flex justify-content-center align-items-center">
+          <i class="fa-solid fa-bell" style="color: rgb(54, 65, 83);"></i>
+        </div>
+        <div class="icone-two d-flex justify-content-center align-items-center">
+          <i class="fa-solid fa-gear" style="color: rgb(54, 65, 83);"></i>
+        </div>
+        <img src="images/avatar-1.jpg" class="d-block image" alt="">
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ MAIN ═════════════════════════════════════════════════════ -->
+  <div class="container mt-5">
+    <div class="main-wrap">
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-users fs-6"></i></div>
+            <div>
+              <div class="stat-label">Total</div>
+              <div class="stat-num" id="stat-total">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <div class="stat-icon orange"><i class="fas fa-star fs-6"></i></div>
+            <div>
+              <div class="stat-label">Favorites</div>
+              <div class="stat-num" id="stat-fav">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fas fa-heartbeat fs-6"></i></div>
+            <div>
+              <div class="stat-label">Emergency</div>
+              <div class="stat-num" id="stat-emrg">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row g-4">
+
+        <!-- Left: Contacts Grid -->
+        <div class="col-lg-8 mb-5">
+          <div class="section-head mb-3">
+            <h2 class="all">All Contacts</h2>
+            <p id="contacts-subtitle">Manage and organize your contacts</p>
+          </div>
+
+          <!-- Search -->
+          <div class="search-wrap jkla">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, phone, or email..." oninput="renderContacts()" />
+          </div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="text-center m-5 flex-column justify-content-center align-items-center p-4">
+            <div class="book-icon d-flex justify-content-center align-items-center rounded-3 mb-2">
+              <i class="fa-solid fa-book fs-5" style="color: rgb(209, 213, 220);"></i>
+            </div>
+            <div class="d-flex flex-column">
+              <span class="found">No contacts found</span>
+              <span class="add">Click "Add Contact" to get started</span>
+            </div>
+          </div>
+
+          <!-- Cards -->
+          <div class="row g-3" id="contactsGrid"></div>
+        </div>
+
+        <!-- Right: Side Panels -->
+        <div class="col-lg-4">
+
+          <!-- Favorites Panel -->
+          <div class="panel panel-bg-fav">
+            <div class="panel-header">
+              <div class="panel-icon fav"><i class="fas fa-star fs-6"></i></div>
+              <div class="panel-title">
+                <h3 class="loi">Favorites</h3>
+                <p>Quick access to starred contacts</p>
+              </div>
+            </div>
+            <div id="favEmpty" class="p-5 text-center">
+              <span class="enter-cont">No favorites yet</span>
+            </div>
+            <div id="favPanel"></div>
+          </div>
+
+          <!-- Emergency Panel -->
+          <div class="panel panel-bg-emrg">
+            <div class="panel-header">
+              <div class="panel-icon emrg"><i class="fas fa-heartbeat fs-6"></i></div>
+              <div class="panel-title">
+                <h3>Emergency</h3>
+                <p>Important contacts for urgent calls</p>
+              </div>
+            </div>
+            <div id="emrgEmpty" class="p-5 text-center">
+              <span class="enter-cont">No emergency contacts</span>
+            </div>
+            <div id="emrgPanel"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADD MODAL ════════════════════════════════════════════════ -->
+  <div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Contact</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <div class="personn d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-user fs-2" style="color: rgb(255, 255, 255);"></i>
+          </div>
+          <button class="klaf">
+            <i class="fa-solid fa-camera fs-6" style="color: rgb(106, 114, 130);"></i> Change Photo
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-control" id="inp-name" placeholder="e.g. Ahmed Ibrahim" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" class="form-control" id="inp-phone" placeholder="e.g. 01012345678" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="inp-email" placeholder="email@example.com" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Address</label>
+              <!-- ✅ ID صح: inp-address -->
+              <input type="text" class="form-control" id="inp-address" placeholder="City or area" />
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Group</label>
+              <select class="form-select" id="inp-category">
+                <option value="">Select a Group</option>
+                <option value="work">Work</option>
+                <option value="school">School</option>
+                <option value="family">Family</option>
+                <option value="friend">Friend</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Notes</label>
+          
+              <input type="text" class="form-control hek" id="inp-notes" placeholder="Add a note about this contact" />
+            </div>
+           
+
+            <div class=" d-flex flex-row justify-content-start align-items-start gap-3">
+
+
+               <div class=" ">
+              <div class="form-check d-flex justify-content-start align-items-start">
+                <input class="form-check-input me-1" type="checkbox" id="inp-fav" />
+                <label class="form-check-label" for="inp-fav">
+                  <i class="fa-solid fa-star" style="color: rgb(255, 212, 59);"></i> Favorite
+                </label>
+              </div>
+            </div>
+            <div class="">
+              <div class="form-check ">
+                <input class="form-check-input me-1" type="checkbox" id="inp-emrg" />
+                <label class="form-check-label" for="inp-emrg">
+                  <i class="fa-solid fa-heart-pulse" style="color: rgb(255, 59, 59);"></i> Emergency
+                </label>
+              </div>
+
+            </div>
+
+            </div>
+          </div>
+          <div id="form-error" class="text-danger small mt-2 d-none">Please fill in name and phone.</div>
+        </div>
+        <div class="modal-footer d-flex flex-row justify-content-between">
+          <button class="btn btn-light fw-bold px-4 width-a" data-bs-dismiss="modal">Cancel</button>
+          <!-- ✅ زر Save Contact -->
+          <button class="btn-add width-a d-flex justify-content-center " onclick="addContact()">
+            <i class="fa-solid fa-check" style="color: rgb(255, 255, 255);"></i> Save Contact
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ EDIT MODAL ═══════════════════════════════════════════════ -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-edit text-primary me-2"></i>Edit Contact</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <input type="hidden" id="edit-id" />
+            <div class="col-12">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-control" id="edit-name" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" class="form-control" id="edit-phone" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="edit-email" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control" id="edit-address" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              <select class="form-select" id="edit-category">
+                <option value="">None</option>
+                <option value="work">Work</option>
+                <option value="school">School</option>
+                <option value="family">Family</option>
+                <option value="friend">Friend</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Avatar Color</label>
+              <select class="form-select" id="edit-color">
+                <option value="pink-grad">Pink</option>
+                <option value="blue-grad">Blue</option>
+                <option value="orange-grad">Orange</option>
+                <option value="green-grad">Green</option>
+                <option value="purple-grad">Purple</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-light fw-bold px-4" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn-add" onclick="saveEdit()"> <i class="fa-solid fa-check" style="color: rgb(255, 255, 255);"></i> Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="JS/bootstrap.bundle.min.js"></script>
+  <script src="JS/main.js"></script>
+
+</body>
+</html>
